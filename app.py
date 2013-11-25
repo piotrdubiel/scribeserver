@@ -1,22 +1,21 @@
 #!/usr/bin/env python
 from flask import Flask, request, Response
-from flask.ext.pymongo import PyMongo
-import json
+from flask import jsonify
+from client import generate_token
 
 app = Flask(__name__)
 app.config.from_object('config.MongoConfig')
 
-mongo = PyMongo(app)
+@app.route('/')
+def hello():
+    return Response('Hello')
 
 @app.route('/register', methods=['POST'])
 def register():
-    token = generate_token()
-    return token
+    return jsonify(token=generate_token())
 
 @app.route('/train', methods=['POST'])
 def train():
-    import pdb; pdb.set_trace()  # XXX BREAKPOINT
-
     return Response('OK')
 
 @app.route('/recognize', methods=['POST'])
