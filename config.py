@@ -1,5 +1,11 @@
 from urlparse import urlparse
 import os
 
+
 class MongoConfig(object):
-    MONGO_URI = os.environ.get("MONGOLAB_URI")
+    uri = urlparse(os.environ.get("MONGOLAB_URI"))
+    MONGODB_DB = uri.path.lstrip('/')
+    MONGODB_USERNAME = uri.username
+    MONGODB_PASSWORD = uri.password
+    MONGODB_HOST = os.environ.get("MONGOLAB_URI")
+    MONGODB_PORT = uri.port
