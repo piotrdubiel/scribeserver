@@ -1,34 +1,31 @@
-from random import SystemRandom
-
-from backports.pbkdf2 import pbkdf2_hmac, compare_digest
-from flask.ext.login import UserMixin
-
-from flask_tracking.data import db
+from flask.ext.mongoengine import Document
+from flask.ext.security import passwordless
+from passlib.apps import custom_app_context as pwd_context
+import mongoengine as db
 
 
-class User(db.Model):
-    __tablename__ = 'users_user'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50))
-    email = db.Column(db.String(120), unique=True)
-    _password = db.Column(db.LargeBinary(120))
-    _salt = db.Column(db.String(120))
+class Role(Document):
+    name = db.StringField(max_length=80, unique=True)
+    description = db.StringField(max_length=255)
 
-    @password.setter
-    def password(self, value):
-        if self._salt is None:
-            self._salt = bytes(SystemRandom().getrandbits(128))
-        self._password = self._hash_password(value)
 
-    def is_valid_password(self, password):
-        new_hash = self._hash_password(password)
-        return compare_digest(new_hash, self._password)
+class User(Document):
+    email = db.StringField(max_length=255)
+    password_hash = db.StringField(max_length=255)
+    active = db.BooleanField(default=True)
+    confirmed_at = db.DateTimeField()
+    roles = db.ListField(db.ReferenceField(Role), default=[])
 
-    def _hash_password(self, password):
-        pwd = password.encode("utf-8")
-        salt = bytes(self._salt)
-        buff = pbkdf2_hmac("sha512", pwd, salt, iterations=100000)
-        return bytes(buff)
+    def hash(self, password):
+        self.password_hash = pwd_context.encrypt(password)
 
-    def __repr__(self):
-        return "<User #{:d}>".format(self.id)
+    def verify(self, password):
+        return password == self.password_hash
+        #return pwd_context.verify(password, self.password_hash)
+
+    def generate_token(self, expiration=600):
+        return passwordless.generate_login_token(self)
+
+    @staticmethod
+    def verify_token(username_or_token):
+        return passwordless.login_token_status(username_or_token)[2]
