@@ -1,12 +1,13 @@
-from flask import Blueprint, make_response, jsonify, g
+from flask import make_response, jsonify, g
 from flask.ext.httpauth import HTTPBasicAuth
+from flask.ext.security import Security, login_required
 from .models import User
 
-blueprint = Blueprint('auth', __name__)
-auth = HTTPBasicAuth()
+basic_auth = HTTPBasicAuth()
+security = Security()
 
 
-@auth.verify_password
+@basic_auth.verify_password
 def verify_password(username_or_token, password):
     user = User.verify_token(username_or_token)
     if not user:
@@ -17,18 +18,10 @@ def verify_password(username_or_token, password):
     return True
 
 
-@auth.error_handler
+@basic_auth.error_handler
 def unauthorized():
     return make_response(jsonify({'error': 'Unauthorized access'}), 403)
 
-login_required = auth.login_required
 
-
-@blueprint.route('/api/token')
-@login_required
-def token():
-    return g.user.generate_token()
-
-@blueprint.route('/register', methods=['GET', 'POST'])
-def register():
-    return 'create'
+api_authorize = basic_auth.login_required
+view_authorize = login_required
