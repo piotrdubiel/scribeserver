@@ -6,11 +6,10 @@
 
 .login-label {
     line-height: 50px;
-    height: 50px;
 }
 
 .login-box input {
-    height: 50px;
+    height: 38px;
     padding: 5px;
     margin: 0;
     background-color: #f1f1f1;
