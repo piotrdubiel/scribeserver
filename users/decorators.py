@@ -1,6 +1,6 @@
 from flask import make_response, jsonify, g
 from flask.ext.httpauth import HTTPBasicAuth
-from flask.ext.security import Security, login_required
+from flask.ext.security import Security, login_required, auth_token_required
 from .models import User
 
 basic_auth = HTTPBasicAuth()
@@ -23,5 +23,5 @@ def unauthorized():
     return make_response(jsonify({'error': 'Unauthorized access'}), 403)
 
 
-api_authorize = basic_auth.login_required
+api_authorize = auth_token_required
 view_authorize = login_required

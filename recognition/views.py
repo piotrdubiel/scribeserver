@@ -1,5 +1,5 @@
 from flask import Blueprint, g
-from security.views import api_authorize
+from users import api_authorize
 
 blueprint = Blueprint('recognition', __name__)
 

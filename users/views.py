@@ -14,14 +14,9 @@ blueprint = Blueprint('users', __name__)
 @blueprint.route('/')
 @view_authorize
 def home():
-    return 'asf'
+    return render_template('index.html')
 
 @blueprint.route('/api/token')
 @api_authorize
 def token():
     return g.user.generate_token()
-
-
-@blueprint.route('/register', methods=('GET', 'POST'))
-def register():
-    return 'create'

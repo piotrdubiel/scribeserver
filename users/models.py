@@ -11,7 +11,7 @@ class Role(Document, RoleMixin):
 
 class User(Document, UserMixin):
     email = db.StringField(max_length=255, unique=True)
-    password_hash = db.StringField(max_length=255)
+    password = db.StringField(max_length=255)
     active = db.BooleanField(default=True)
     confirmed_at = db.DateTimeField()
     roles = db.ListField(db.ReferenceField(Role), default=[])
