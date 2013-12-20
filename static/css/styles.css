@@ -4,22 +4,39 @@
     padding: 20px;
 }
 
-.login-label {
-    line-height: 50px;
+.registration-box {
+    margin: auto;
+    width: 500px;
+    padding: 20px;
 }
 
-.login-box input {
-    height: 38px;
+.field-label label {
+    line-height: 35px;
+}
+
+.login-box input,
+.registration-box input {
+    height: 30px;
     padding: 5px;
     margin: 0;
     background-color: #f1f1f1;
 }
 
-.login-box input.upper {
+input.upper {
     border-radius: 4px 4px 0 0;
 }
 
-.login-box input.lower {
+input.middle {
+    border-radius: 0 0 0 0;
+    border-top: 0;
+}
+
+input.lower {
     border-radius: 0 0 4px 4px;
     border-top: 0;
+}
+
+.btn {
+    padding: 5px;
+    min-width: 80px;
 }

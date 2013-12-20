@@ -1,0 +1,25 @@
+{% macro render_field_with_errors(field) %}
+    {% if field.errors %}
+      <ul>
+      {% for error in field.errors %}
+        <li>{{ error }}</li>
+      {% endfor %}
+      </ul>
+    {% endif %}
+    {{ render_field(field, **kwargs) }}
+{% endmacro %}
+
+{% macro render_field(field) %}
+    {% if field.type == 'SubmitField' or field.type == 'HiddenField' %}
+        {{ field(**kwargs)|safe }}
+    {% else %}
+    <div class="row-fluid">
+        <div class="field-label span4">
+            {{ field.label }}
+        </div>
+        <div class="span8">
+        {{ field(**kwargs)|safe }}
+        </div>
+    </div>
+    {% endif %}
+{% endmacro %}

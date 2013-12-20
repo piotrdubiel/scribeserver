@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, g, request, render_template, redirect, url_for
-from .decorators import view_authorize, api_authorize
+from flask.ext.login import current_user
+from .decorators import view_authorize, api_authorize, http_authorize
 
 # ===============================================
 #         ___  ____  __  ________________
@@ -17,6 +18,6 @@ def home():
     return render_template('index.html')
 
 @blueprint.route('/api/token')
-@api_authorize
+@http_authorize
 def token():
-    return g.user.generate_token()
+    return current_user.get_auth_token()

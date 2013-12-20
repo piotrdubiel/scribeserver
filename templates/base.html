@@ -8,13 +8,25 @@
     </head>
 
     <body>
-        {% block navbar %}
-        {% endblock %}
+        <div class="container">
+            {% block navbar %}
+            <div class="navbar navbar-inverse navbar-static-top">
+            <div class="navbar-inner">
+                <a class="brand" href="#">Title</a>
+                <ul class="nav">
+                <li class="active"><a href="#">Home</a></li>
+                <li><a href="#">Link</a></li>
+                <li><a href="#">Link</a></li>
+                </ul>
+            </div>
+            </div>
+            {% endblock %}
 
-        {% block content %}
-        {% endblock %}
+            {% block content %}
+            {% endblock %}
 
-        {% block js_footer %}
-        {% endblock %}
+            {% block js_footer %}
+            {% endblock %}
+        </div>
     </body>
 </html>
