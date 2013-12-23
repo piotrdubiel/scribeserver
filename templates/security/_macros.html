@@ -1,25 +1,24 @@
 {% macro render_field_with_errors(field) %}
     {% if field.errors %}
-      <ul>
-      {% for error in field.errors %}
-        <li>{{ error }}</li>
-      {% endfor %}
-      </ul>
+        <span class="error help-inline">{{ field.errors|join(', ') }}</span>
     {% endif %}
     {{ render_field(field, **kwargs) }}
 {% endmacro %}
 
 {% macro render_field(field) %}
-    {% if field.type == 'SubmitField' or field.type == 'HiddenField' %}
-        {{ field(**kwargs)|safe }}
+    {% set class_ = kwargs.pop('class', '') %}
+    {% set class_ = class_ + ' form-control' %}
+    {% if field.flags.required %}
+        {% set class_ = class_ + ' required' %}
+    {% endif %}
+    {% if field.type == 'SubmitField' %}
+        {% set class_ = class_ + ' btn' %}
+        {{ field(class=class_, **kwargs) }}
+    {% elif field.type == 'HiddenField' %}
+        {{ field(class=class_, **kwargs) }}
     {% else %}
-    <div class="row-fluid">
-        <div class="field-label span4">
-            {{ field.label }}
-        </div>
-        <div class="span8">
-        {{ field(**kwargs)|safe }}
-        </div>
-    </div>
+        {{ field(class=class_, placeholder=field.label.text, **kwargs) }}
     {% endif %}
 {% endmacro %}
+
+

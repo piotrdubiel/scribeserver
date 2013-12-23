@@ -8,25 +8,38 @@
     </head>
 
     <body>
-        <div class="container">
-            {% block navbar %}
-            <div class="navbar navbar-inverse navbar-static-top">
-            <div class="navbar-inner">
-                <a class="brand" href="#">Title</a>
-                <ul class="nav">
-                <li class="active"><a href="#">Home</a></li>
-                <li><a href="#">Link</a></li>
-                <li><a href="#">Link</a></li>
-                </ul>
-            </div>
-            </div>
-            {% endblock %}
-
-            {% block content %}
-            {% endblock %}
-
-            {% block js_footer %}
-            {% endblock %}
+        {% block navbar %}
+        <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Title</a>
         </div>
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="/">Home</a></li>
+            </ul>
+            <ul class="nav navbar-nav pull-right">
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Devices<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">Action</a></li>
+                  <li><a href="#">Another action</a></li>
+                  <li><a href="#">Something else here</a></li>
+                  <li class="divider"></li>
+                  <li><a href="#">Separated link</a></li>
+                </ul>
+            </li>
+            <li><a href="/logout">Logout</a></li>
+            </ul>
+        </div>
+        </nav>
+        {% endblock %}
+
+        {% block content %}
+        {% endblock %}
+
+        {% block js_footer %}
+        <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
+        {% endblock %}
     </body>
 </html>

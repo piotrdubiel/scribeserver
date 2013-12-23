@@ -2,8 +2,10 @@
 from flask import Flask
 from flask.ext.mongoengine import MongoEngine
 from flask.ext.security import MongoEngineUserDatastore
+from flask.ext.admin import Admin, BaseView, expose
 
 from users import User, Role, blueprint as users_module, security
+from users.admin import UserView
 from recognition import blueprint as recognition_module
 
 app = Flask(__name__)
@@ -17,6 +19,9 @@ app.register_blueprint(recognition_module)
 db = MongoEngine(app)
 user_store = MongoEngineUserDatastore(db, User, Role)
 security.init_app(app, user_store)
+
+admin = Admin(app)
+admin.add_view(UserView(User))
 
 if __name__ == '__main__':
     print app.url_map
