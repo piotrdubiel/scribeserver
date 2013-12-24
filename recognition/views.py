@@ -1,5 +1,7 @@
-from flask import Blueprint, g, request
+from flask import Blueprint, request
+from tempfile import TemporaryFile
 from users import api_authorize
+from .models import Prediction
 
 blueprint = Blueprint('recognition', __name__)
 
@@ -15,4 +17,9 @@ blueprint = Blueprint('recognition', __name__)
 @blueprint.route('/api/recognize', methods=['POST'])
 def recognize():
     print request.json
-    return 'x'
+    with TemporaryFile('wb') as image_file:
+        image_file.write(request.json['data'].decode('base64'))
+        prediction = Prediction(text='a')
+        prediction.image.put(image_file, content_type="image/png")
+        prediction.save()
+    return 'a'
