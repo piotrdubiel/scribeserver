@@ -2,6 +2,8 @@ from flask import Blueprint, jsonify, g, request, render_template, redirect, url
 from flask.ext.login import current_user
 from .decorators import view_authorize, api_authorize, http_authorize
 
+blueprint = Blueprint('users', __name__)
+
 # ===============================================
 #         ___  ____  __  ________________
 #        / _ \/ __ \/ / / /_  __/ __/ __/
@@ -9,8 +11,6 @@ from .decorators import view_authorize, api_authorize, http_authorize
 #      /_/|_|\____/\____/ /_/ /___/___/
 #
 # ===============================================
-
-blueprint = Blueprint('users', __name__)
 
 @blueprint.route('/')
 @view_authorize
