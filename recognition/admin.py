@@ -1,6 +1,6 @@
 from flask.ext.admin.contrib.mongoengine import ModelView
 from .models import Prediction
-from admin import AdminMixin
+from management.mixins import AdminMixin
 
 
 class PredictionView(AdminMixin, ModelView):
