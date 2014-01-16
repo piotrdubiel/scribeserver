@@ -1,3 +1,4 @@
+from functools import wraps
 from flask.ext.security import Security
 from flask.ext.security import login_required, auth_token_required, http_auth_required
 

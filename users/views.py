@@ -17,7 +17,7 @@ blueprint = Blueprint('users', __name__)
 def home():
     return render_template('index.html')
 
-@blueprint.route('/api/token')
+@blueprint.route('/api/token', methods=['POST'])
 @http_authorize
 def token():
     return current_user.get_auth_token()

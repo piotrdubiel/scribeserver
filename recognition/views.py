@@ -16,6 +16,7 @@ blueprint = Blueprint('recognition', __name__)
 
 
 @blueprint.route('/api/recognize', methods=['POST'])
+@api_authorize
 def recognize():
     print request.json
     with TemporaryFile(mode='wb+') as image_file:
