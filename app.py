@@ -3,6 +3,7 @@ from flask import Flask
 from flask.ext.mongoengine import MongoEngine
 from flask.ext.security import MongoEngineUserDatastore
 from flask.ext.admin import Admin
+from admin import CustomAdminIndexView
 
 from users import User, Role, blueprint as users_module, security
 from users.admin import UserView
@@ -21,7 +22,7 @@ db = MongoEngine(app)
 user_store = MongoEngineUserDatastore(db, User, Role)
 security.init_app(app, user_store)
 
-admin = Admin(app)
+admin = Admin(app, index_view=CustomAdminIndexView())
 admin.add_view(UserView(User))
 admin.add_view(PredictionView(Prediction))
 
