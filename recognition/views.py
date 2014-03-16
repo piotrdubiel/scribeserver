@@ -6,6 +6,8 @@ from PIL import Image
 
 blueprint = Blueprint('recognition', __name__)
 
+import pysbp
+
 # ===============================================
 #         ___  ____  __  ________________
 #        / _ \/ __ \/ / / /_  __/ __/ __/
@@ -27,4 +29,14 @@ def recognize():
         prediction = Prediction(text='a')
         prediction.image.put(image_file, content_type="image/png")
         prediction.save()
+
     return 'a'
+
+
+@blueprint.route('/api/sbp', methods=['GET'])
+def sbp():
+    pysbp.init()
+    pysbp.add_layer([43.259, 43.268, -66.366], [65.075, 65.101, -27.079])
+    pysbp.add_layer([-29.041, 27.2972, -5.0622])
+
+    return str(pysbp.classify(map(float, request.args.getlist('x'))))
