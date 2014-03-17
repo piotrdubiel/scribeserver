@@ -18,7 +18,7 @@ import pysbp
 
 @blueprint.route('/api/image/recognize', methods=['POST'])
 @api_authorize
-def recognize():
+def image():
     print request.json
     with TemporaryFile(mode='wb+') as image_file:
         image_file.write(request.json['data'].decode('base64'))
@@ -31,9 +31,10 @@ def recognize():
 
     return 'a'
 
+
 @blueprint.route('/api/pca/recognize', methods=['POST'])
 @api_authorize
-def recognize():
+def pca():
     print request.json
     vector = request.json['data'].decode('base64')
     print vector
