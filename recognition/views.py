@@ -2,6 +2,7 @@ from flask import Blueprint, request
 from tempfile import TemporaryFile
 from users import api_authorize
 from .models import Prediction
+import struct
 
 blueprint = Blueprint('recognition', __name__)
 
@@ -37,8 +38,8 @@ def image():
 def pca():
     print request.json
     vector = request.json['data'].decode('base64')
-    print vector
-    return 'a'
+    values = struct.unpack('f' * 150, vector)
+    return str(values)
 
 
 @blueprint.route('/api/xor', methods=['GET'])
