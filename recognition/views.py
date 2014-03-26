@@ -3,18 +3,23 @@ from tempfile import TemporaryFile
 from users import api_authorize
 from .models import Prediction
 import struct
+import os
 
 blueprint = Blueprint('recognition', __name__)
 
-import pysbp
+from pysbp import Classifier
+path = os.path.abspath(os.path.dirname(__file__))
+classifier = Classifier(path + '/classifiers/pl_small_net.txt',
+                        path + '/classifiers/pl_small_net.yml')
 
-# ===============================================
+
+# =============================================
 #         ___  ____  __  ________________
 #        / _ \/ __ \/ / / /_  __/ __/ __/
 #       / , _/ /_/ / /_/ / / / / _/_\ \
 #      /_/|_|\____/\____/ /_/ /___/___/
 #
-# ===============================================
+# =============================================
 
 
 @blueprint.route('/api/image/recognize', methods=['POST'])
@@ -38,8 +43,8 @@ def image():
 def pca():
     print request.json
     vector = request.json['data'].decode('base64')
-    values = struct.unpack('f' * 150, vector)
-    return str(values)
+    values = list(struct.unpack('>' + 'f' * 150, vector))
+    return classifier.classifier(values)
 
 
 @blueprint.route('/api/xor', methods=['GET'])
