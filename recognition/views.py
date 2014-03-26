@@ -43,9 +43,7 @@ def image():
 def pca():
     vector = request.json['data'].decode('base64')
     values = list(struct.unpack('>' + 'f' * 150, vector))
-    a = classifier.classifier(values)
-    print "[NEURAL NETWORK] Answer: {}".format(a)
-    return str(a)
+    return classifier.classify(values)
 
 
 @blueprint.route('/api/xor', methods=['GET'])
