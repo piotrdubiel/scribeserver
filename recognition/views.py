@@ -1,7 +1,9 @@
 from flask import Blueprint, request
+from flask_sockets import Sockets
 from tempfile import TemporaryFile
 from users import api_authorize
 from .models import Prediction
+from .cnn.read import read
 import struct
 import os
 
@@ -37,6 +39,10 @@ def image():
 
     return 'a'
 
+@blueprint.route('/api/recognize', methods=['POST'])
+def gesture():
+    a=read(request.json)
+    return str(a)
 
 @blueprint.route('/api/pca/recognize', methods=['POST'])
 @api_authorize
@@ -53,3 +59,13 @@ def xor():
     pysbp.add_layer([-29.041, 27.2972, -5.0622])
 
     return str(pysbp.classify(map(float, request.args.getlist('x'))))
+
+
+def register_sockets(app):
+    sockets = Sockets(app)
+    @sockets.route("/ws/recognize")
+    def recognize(ws):
+        while True:
+            ws.send("a")
+            message = ws.receive()
+            print message
