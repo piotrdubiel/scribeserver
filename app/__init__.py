@@ -1,16 +1,15 @@
-#!/usr/bin/env python
-
 from flask import Flask
 from flask.ext.mongoengine import MongoEngine
 from flask.ext.security import MongoEngineUserDatastore
 from flask.ext.admin import Admin
+from tornado.wsgi import WSGIContainer
+from tornado.web import Application, FallbackHandler
 from admin import CustomAdminIndexView
 
-from users import User, Role, blueprint as users_module, security
-from users.admin import UserView
-from recognition import Prediction, blueprint as recognition_module
-from recognition.admin import PredictionView
-from recognition.views import register_sockets
+from .users import User, Role, blueprint as users_module, security
+from .users.admin import UserView
+from .recognition import Prediction, blueprint as recognition_module
+from .recognition.admin import PredictionView
 
 app = Flask(__name__)
 app.config.from_object("config.MongoConfig")
@@ -28,5 +27,10 @@ admin = Admin(app, index_view=CustomAdminIndexView())
 admin.add_view(UserView(User))
 admin.add_view(PredictionView(Prediction))
 
-if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0")
+from recognition import ws
+
+container = WSGIContainer(app)
+server = Application([
+    (r'/ws/recognize', ws.SocketHandler),
+    (r'.*', FallbackHandler, dict(fallback=container))
+])

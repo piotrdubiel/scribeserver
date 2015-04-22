@@ -1,9 +1,8 @@
 from flask import Blueprint, request
-from flask_sockets import Sockets
 from tempfile import TemporaryFile
-from users import api_authorize
+from app.users import api_authorize
 from .models import Prediction
-from .cnn.read import read
+from .cnn.classify import read
 import struct
 import os
 
@@ -61,11 +60,3 @@ def xor():
     return str(pysbp.classify(map(float, request.args.getlist('x'))))
 
 
-def register_sockets(app):
-    sockets = Sockets(app)
-    @sockets.route("/ws/recognize")
-    def recognize(ws):
-        while True:
-            ws.send("a")
-            message = ws.receive()
-            print message

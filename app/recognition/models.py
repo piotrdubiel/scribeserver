@@ -1,7 +1,7 @@
 from flask.ext.mongoengine import Document
 import mongoengine as db
 
-from users import Device
+from app.users import Device
 
 
 class Prediction(Document):

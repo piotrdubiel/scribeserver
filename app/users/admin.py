@@ -1,5 +1,5 @@
 from flask.ext.admin.contrib.mongoengine import ModelView
-from management.mixins import AdminMixin
+from app.management.mixins import AdminMixin
 
 
 class UserView(AdminMixin, ModelView):
