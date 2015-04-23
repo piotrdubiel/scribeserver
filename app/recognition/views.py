@@ -14,13 +14,13 @@ classifier = Classifier(path + '/classifiers/pl_small_net.txt',
                         path + '/classifiers/pl_small_net.yml')
 
 
-# =============================================
-#         ___  ____  __  ________________
-#        / _ \/ __ \/ / / /_  __/ __/ __/
-#       / , _/ /_/ / /_/ / / / / _/_\ \
-#      /_/|_|\____/\____/ /_/ /___/___/
-#
-# =============================================
+# ============================================= #
+#         ___  ____  __  ________________       #
+#        / _ \/ __ \/ / / /_  __/ __/ __/       #
+#       / , _/ /_/ / /_/ / / / / _/_\ \         #
+#      /_/|_|\____/\____/ /_/ /___/___/         #
+#                                               #
+# ============================================= #
 
 
 @blueprint.route('/api/image/recognize', methods=['POST'])
@@ -38,10 +38,12 @@ def image():
 
     return 'a'
 
+
 @blueprint.route('/api/recognize', methods=['POST'])
 def gesture():
-    a=read(request.json)
+    a = read(request.json)
     return str(a)
+
 
 @blueprint.route('/api/pca/recognize', methods=['POST'])
 @api_authorize
@@ -49,14 +51,3 @@ def pca():
     vector = request.json['data'].decode('base64')
     values = list(struct.unpack('>' + 'f' * 150, vector))
     return classifier.classify(values)
-
-
-@blueprint.route('/api/xor', methods=['GET'])
-def xor():
-    pysbp.init()
-    pysbp.add_layer([43.259, 43.268, -66.366], [65.075, 65.101, -27.079])
-    pysbp.add_layer([-29.041, 27.2972, -5.0622])
-
-    return str(pysbp.classify(map(float, request.args.getlist('x'))))
-
-
