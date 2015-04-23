@@ -1,13 +1,9 @@
-import cProfile
 import gizeh
 import sys
-import os
 from lxml import objectify
 from itertools import chain, combinations
 from collections import defaultdict
-from math import sqrt, ceil
 import numpy as np
-import matplotlib.pyplot as plt
 
 
 def read(filename):
