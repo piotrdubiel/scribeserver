@@ -1,0 +1,12 @@
+web:
+  build: .
+  environment:
+    ENV: docker
+  volumes:    
+    - ".:/code"
+  links:
+    - mongo:mongo
+  ports:
+    - "5000:5000"
+mongo:
+  image: mongo

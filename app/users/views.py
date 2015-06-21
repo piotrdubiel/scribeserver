@@ -1,10 +1,10 @@
-from flask import Blueprint, jsonify, g, request, render_template, redirect, url_for
+from flask import Blueprint, jsonify,  request, render_template
 from flask.ext.login import current_user
 from flask.ext.security import RegisterForm
 from flask.ext.security.registerable import register_user
 from flask.ext.security.utils import login_user
 from werkzeug.datastructures import MultiDict
-from .decorators import view_authorize, api_authorize, http_authorize
+from .decorators import view_authorize, api_authorize, http_authorize, json_authorize
 
 blueprint = Blueprint('users', __name__)
 
@@ -25,6 +25,15 @@ def home():
 @http_authorize
 def token():
     return current_user.get_auth_token()
+
+@blueprint.route('/api/login', methods=['POST'])
+@json_authorize
+def login():
+    username = request.get_json().get('email')
+    return jsonify({
+        'username': username,
+        'token': current_user.get_auth_token()
+    })
 
 @blueprint.route('/api/register', methods=['POST'])
 def register():

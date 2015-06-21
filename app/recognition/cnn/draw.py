@@ -22,7 +22,7 @@ def normalize(point, left, top):
 def make_numbers(point):
     return {'x': int(point['x']), 'y': int(point['y']), 'time': float(point['time'])}
 
-def draw(strokes, output):
+def draw(strokes):
     points = [s for stroke in strokes for s in stroke]
     xs = map(lambda p: p['x'], points)
     ys = map(lambda p: p['y'], points)
@@ -166,7 +166,7 @@ def getPermutations(string):
 if __name__ == "__main__":
     filename = sys.argv[1]
     strokes = read(filename)
-    #image = draw(strokes, os.path.splitext(filename)[0] + ".png")
+    image = draw(strokes)
     #m=np.sum(np.sum(image/255, 0), 1)
     #plt.hist(m)
 

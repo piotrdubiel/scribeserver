@@ -14,8 +14,8 @@ def read(gesture):
     new_shape[int(not larger)] = 20 * min(shape) / max(shape)
     new_image = (imresize(gray_image, new_shape)>0).astype(float)
     big_image = np.zeros((28,28))
-    left = 14-new_image.shape[0]/2
-    top = 14-new_image.shape[1]/2
+    left = 14 - new_image.shape[0] / 2
+    top = 14 - new_image.shape[1] / 2
     right = left + new_image.shape[0]
     bottom = top + new_image.shape[1]
     big_image[left:right, top:bottom] = new_image
