@@ -1,13 +1,20 @@
 import gizeh
 from collections import defaultdict
 
+def normalize(point, left, top):
+    point['x'] = point['x'] - left
+    point['y'] = point['y'] - top
+    return point
 
 class SegmentationGraph(object):
     def __init__(self, strokes):
         self.states = set()
         self.transitions = defaultdict(set)
         # TODO
-        self.strokes = [{'id': i, 'stroke': [normalize(point, left=min(xs), top=min(ys)) for point in stroke]} for i, stroke in enumerate(strokes)]
+        points = [s for stroke in strokes for s in stroke['stroke']]
+        xs = map(lambda p: p['x'], points)
+        ys = map(lambda p: p['y'], points)
+        self.strokes = [{'id': i, 'stroke': [normalize(point, left=min(xs), top=min(ys)) for point in stroke['stroke']]} for i, stroke in enumerate(strokes)]
         for partition in self.generate_slices(strokes):
             states = map(SegmentationState, partition)
             self.states.update(states)

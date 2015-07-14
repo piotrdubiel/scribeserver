@@ -22,3 +22,4 @@ def test_graph_create():
 
     # then
     ok_(graph)
+
